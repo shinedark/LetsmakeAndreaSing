@@ -14,10 +14,17 @@ export default function NotFound() {
   return (
     <div className="relative w-full h-screen bg-black flex items-center justify-center text-white text-center">
       {/* Full screen video background */}
-      <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-red-500 to-purple-600 flex items-center justify-center">
-        <div className="text-8xl font-bold text-white animate-pulse">
-          404
-        </div>
+      <div className="absolute inset-0 w-full h-full">
+        <video
+          ref={videoRef}
+          autoPlay 
+          loop 
+          muted 
+          className="w-full h-full object-cover"
+        >
+          <source src="/LetsmakeAndreaSing/videos/404.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
 
       {/* Mute button */}
