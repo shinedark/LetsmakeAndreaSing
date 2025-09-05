@@ -1,10 +1,10 @@
-import { defineConfig } from "vite";
+n Iteratorimport { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
-  base: "/",
+  base: process.env.NODE_ENV === "production" ? "/LetsmakeAndreaSing/" : "/",
   plugins: [
     react(),
     runtimeErrorOverlay(),

@@ -6,22 +6,22 @@ import { Github, Linkedin, Mail, ExternalLink } from 'lucide-react';
 export default function Home() {
   const projects = [
     {
-      title: "E-Commerce Platform",
-      description: "Full-stack e-commerce solution with React, Node.js, and PostgreSQL",
-      technologies: ["React", "Node.js", "PostgreSQL", "Stripe"],
+      title: "Soccer Stats Tracker",
+      description: "Real-time soccer statistics and player performance analytics platform",
+      technologies: ["React", "Node.js", "PostgreSQL", "WebSocket"],
       status: "Completed",
       link: "#"
     },
     {
-      title: "Mobile Weather App",
-      description: "Cross-platform weather application with real-time data and beautiful UI",
-      technologies: ["React Native", "TypeScript", "Weather API"],
+      title: "Fantasy Football App",
+      description: "Mobile fantasy football management with live scoring and player stats",
+      technologies: ["React Native", "TypeScript", "Sports API"],
       status: "In Progress",
       link: "#"
     },
     {
-      title: "Data Visualization Dashboard",
-      description: "Interactive dashboard for analyzing business metrics and KPIs",
+      title: "Match Analysis Dashboard",
+      description: "Interactive dashboard for analyzing team performance and tactics",
       technologies: ["D3.js", "Python", "FastAPI", "MongoDB"],
       status: "Completed",
       link: "#"
@@ -65,13 +65,21 @@ export default function Home() {
         {/* Hero Section */}
         <section className="mb-16 text-center">
           <div className="max-w-3xl mx-auto">
+            <div className="mb-8">
+              <img 
+                src="/images/pirlo.jpg" 
+                alt="Andrea Pirlo - Soccer Legend" 
+                className="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-4 border-primary shadow-lg"
+              />
+            </div>
             <h2 className="text-5xl font-bold text-foreground mb-6">
               Building Digital Experiences
             </h2>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
               I'm a passionate full-stack developer who loves creating beautiful, 
               functional applications that solve real-world problems. With expertise 
-              in modern web technologies and a keen eye for design.
+              in modern web technologies and a keen eye for design. Inspired by the 
+              elegance and precision of soccer legends like Andrea Pirlo.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               {skills.slice(0, 6).map((skill) => (
