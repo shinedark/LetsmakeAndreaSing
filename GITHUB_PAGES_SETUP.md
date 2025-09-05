@@ -5,13 +5,13 @@
 Your GitHub Pages deployment issue is due to URL formatting. Here's the correct setup:
 
 ### 1. Repository Name
-- Must be: `gronkosky` (simple name, no spaces)
+- Should be: `LetsmakeAndreaSing` (your existing repository)
 - Not: `claudio-y%20gornkonski` or similar
 
 ### 2. Correct GitHub Pages URL
 Your site should be accessible at:
 ```
-https://shinedark.github.io/gronkosky/
+https://shinedark.github.io/LetsmakeAndreaSing/
 ```
 
 **NOT**: `https://shinedark.github.io/https:/claudio-y-%20gornkonski/`
@@ -32,7 +32,7 @@ https://shinedark.github.io/gronkosky/
    - Look for green checkmarks on your commits
 
 4. **Access Your Site**:
-   - Visit: `https://shinedark.github.io/gronkosky/`
+   - Visit: `https://shinedark.github.io/LetsmakeAndreaSing/`
    - It may take 5-10 minutes for changes to appear
 
 ### 4. Troubleshooting
