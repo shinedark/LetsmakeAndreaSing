@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
 import NotFound from "@/pages/not-found";
+import { prod } from "@tensorflow/tfjs";
 
 function Router() {
   return (
@@ -27,3 +28,4 @@ function App() {
 }
 
 export default App;
+heppning in prod
