@@ -2,7 +2,7 @@
 
 ## Quick Setup
 
-1. **Push to GitHub**: Push this repository to GitHub with the name "claudio-y-gornkonski"
+1. **Push to GitHub**: Push this repository to GitHub with the name "gronkosky"
 
 2. **Enable GitHub Pages**:
    - Go to your repository Settings
@@ -22,7 +22,7 @@ If you prefer manual deployment:
    git add .
    git commit -m "Initial commit: Claudio y gornkonski meta-learning app"
    git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/claudio-y-gornkonski.git
+   git remote add origin https://github.com/YOUR_USERNAME/gronkosky.git
    git push -u origin main
    ```
 
@@ -32,7 +32,7 @@ If you prefer manual deployment:
    - The included workflow will handle deployment
 
 3. **Access Your Site**:
-   - Your app will be available at: `https://YOUR_USERNAME.github.io/claudio-y-gornkonski/`
+   - Your app will be available at: `https://YOUR_USERNAME.github.io/gronkosky/`
 
 ## Notes
 

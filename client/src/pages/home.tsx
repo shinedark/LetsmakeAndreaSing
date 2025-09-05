@@ -57,7 +57,7 @@ export default function Home() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-primary">Reptile Meta-Learning</h1>
+              <h1 className="text-3xl font-bold text-primary">Gronkosky - Reptile Meta-Learning</h1>
               <p className="text-muted-foreground mt-1">Interactive Visualization of Few-Shot Learning</p>
             </div>
             <div className="flex items-center space-x-4">
@@ -125,7 +125,7 @@ export default function Home() {
       <footer className="border-t border-border bg-card/30 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-8">
           <div className="text-center text-muted-foreground">
-            <p className="mb-2">Reptile Meta-Learning Visualization</p>
+            <p className="mb-2">Gronkosky - Reptile Meta-Learning Visualization</p>
             <p className="text-sm">Implementation of "On First-Order Meta-Learning Algorithms" by Nichol et al.</p>
           </div>
         </div>

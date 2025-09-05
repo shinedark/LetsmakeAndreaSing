@@ -1,4 +1,4 @@
-# Claudio y gornkonski - Reptile Meta-Learning Visualization
+# Gronkosky - Reptile Meta-Learning Visualization
 
 This is a sophisticated meta-learning visualization application that demonstrates the Reptile meta-learning algorithm through an interactive web interface. The application allows users to train a neural network using meta-learning on sine wave regression tasks, visualizing the training process, loss curves, and evaluation results in real-time. 
 

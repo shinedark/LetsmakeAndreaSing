@@ -1,4 +1,4 @@
-# Claudio y gornkonski - Reptile Meta-Learning Visualization
+# Gronkosky - Reptile Meta-Learning Visualization
 
 An interactive web application that demonstrates the Reptile meta-learning algorithm for few-shot learning on sine wave regression tasks.
 
@@ -46,10 +46,10 @@ This application implements the Reptile meta-learning algorithm from "On First-O
 ### GitHub Pages Deployment
 This project is configured for automatic deployment to GitHub Pages:
 
-1. **Push to GitHub**: Create a repository named "claudio-y-gornkonski"
+1. **Push to GitHub**: Create a repository named "gronkosky"
 2. **Enable Pages**: Go to Settings → Pages → Select "GitHub Actions"
 3. **Deploy**: Push to main branch triggers automatic deployment
-4. **Access**: Your app will be at `https://YOUR_USERNAME.github.io/claudio-y-gornkonski/`
+4. **Access**: Your app will be at `https://YOUR_USERNAME.github.io/gronkosky/`
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
