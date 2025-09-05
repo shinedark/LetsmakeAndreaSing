@@ -129,6 +129,13 @@ export default function Home() {
               >
                 Export Image
               </button>
+
+              <a
+                href="/slides"
+                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+              >
+                View Slides
+              </a>
             </div>
 
             {/* Zoom Controls */}
