@@ -1,44 +1,19 @@
-import { useEffect } from 'react';
-import { useMandelbrot } from '@/hooks/use-mandelbrot';
+import { useState } from 'react';
+import { ThreeVisualization } from '@/components/three-visualization';
 
 export default function Home() {
-  const {
-    isGenerating,
-    currentResult,
-    generationProgress,
-    zoomLevel,
-    centerReal,
-    centerImag,
-    config,
-    generationHistory,
-    currentHistoryIndex,
-    startGeneration,
-    pauseGeneration,
-    resetGeneration,
-    zoomIn,
-    zoomOut,
-    navigateHistory,
-    updateConfig,
-    exportImage,
-  } = useMandelbrot();
-
-  useEffect(() => {
-    // Auto-start generation when component mounts
-    if (!currentResult && !isGenerating) {
-      startGeneration();
-    }
-  }, [currentResult, isGenerating, startGeneration]);
+  const [isVisualizationRunning, setIsVisualizationRunning] = useState(false);
 
   const getStatusColor = () => {
-    if (isGenerating) {
+    if (isVisualizationRunning) {
       return 'text-yellow-400';
     }
     return 'text-green-400';
   };
 
   const getStatusText = () => {
-    if (isGenerating) {
-      return `Generating... ${Math.round(generationProgress)}%`;
+    if (isVisualizationRunning) {
+      return 'Visualization Running';
     }
     return 'Ready';
   };
@@ -92,7 +67,7 @@ export default function Home() {
       </header>
 
       <div className="container mx-auto px-6 py-8">
-        {/* Mandelbrot Visualization Section */}
+        {/* Three.js Visualization Section */}
         <section className="mb-12">
           <div className="bg-gray-900 rounded-lg p-6">
             <h2 className="text-2xl font-bold mb-4">Fractal Consciousness Visualization</h2>
@@ -100,34 +75,11 @@ export default function Home() {
             {/* Controls */}
             <div className="flex flex-wrap gap-4 mb-6">
               <button
-                onClick={() => startGeneration()}
-                disabled={isGenerating}
+                onClick={() => setIsVisualizationRunning(true)}
+                disabled={isVisualizationRunning}
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
               >
-                {isGenerating ? 'Generating...' : 'Generate Fractal'}
-              </button>
-              
-              <button
-                onClick={pauseGeneration}
-                disabled={!isGenerating}
-                className="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:opacity-50"
-              >
-                Pause
-              </button>
-              
-              <button
-                onClick={resetGeneration}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-              >
-                Reset
-              </button>
-              
-              <button
-                onClick={exportImage}
-                disabled={!currentResult}
-                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
-              >
-                Export Image
+                {isVisualizationRunning ? 'Running...' : 'Start Visualization'}
               </button>
 
               <a
@@ -138,126 +90,62 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Zoom Controls */}
-            <div className="flex flex-wrap gap-4 mb-6">
-              <button
-                onClick={() => zoomIn(centerReal, centerImag)}
-                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-              >
-                Zoom In
-              </button>
-              
-              <button
-                onClick={zoomOut}
-                disabled={zoomLevel <= 1}
-                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50"
-              >
-                Zoom Out
-              </button>
-            </div>
-
-            {/* History Navigation */}
-            {generationHistory.length > 1 && (
-              <div className="flex gap-4 mb-6">
-                <button
-                  onClick={() => navigateHistory('back')}
-                  disabled={currentHistoryIndex <= 0}
-                  className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50"
-                >
-                  ← Previous
-                </button>
-                
-                <button
-                  onClick={() => navigateHistory('forward')}
-                  disabled={currentHistoryIndex >= generationHistory.length - 1}
-                  className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50"
-                >
-                  Next →
-                </button>
-              </div>
-            )}
-
-            {/* Progress Bar */}
-            {isGenerating && (
-              <div className="mb-6">
-                <div className="w-full bg-gray-700 rounded-full h-2">
-                  <div 
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${generationProgress}%` }}
-                  ></div>
-                </div>
-                <p className="text-sm text-gray-300 mt-2">
-                  Generating fractal at {config.width}x{config.height} resolution...
-                </p>
-              </div>
-            )}
-
-            {/* Fractal Display */}
-            <div className="bg-black rounded-lg p-4 min-h-[400px] flex items-center justify-center">
-              {currentResult ? (
-                <div className="text-center">
-                  <h3 className="text-xl font-bold mb-4">Mandelbrot Set - Ownerless Repeats</h3>
-                  <p className="text-gray-300 mb-4">
-                    Zoom Level: {zoomLevel}x | Center: ({centerReal.toFixed(3)}, {centerImag.toFixed(3)})
-                  </p>
-                  <p className="text-sm text-gray-400">
-                    Generated in {currentResult.generationTime.toFixed(2)}ms
-                  </p>
-                  <div className="mt-4 text-xs text-gray-500">
-                    <p>This fractal represents the infinite complexity of consciousness</p>
-                    <p>Each point reveals patterns that repeat without ownership</p>
-                  </div>
-                </div>
+            {/* Three.js Visualization Display */}
+            <div className="bg-black rounded-lg p-4 min-h-[500px]">
+              {isVisualizationRunning ? (
+                <ThreeVisualization 
+                  isRunning={isVisualizationRunning}
+                  onStop={() => setIsVisualizationRunning(false)}
+                />
               ) : (
-                <div className="text-center text-gray-400">
-                  <p className="text-lg">Click "Generate Fractal" to begin exploring</p>
-                  <p className="text-sm mt-2">The Mandelbrot set awaits your consciousness</p>
+                <div className="h-full flex items-center justify-center text-center text-gray-400">
+                  <div>
+                    <p className="text-lg mb-4">Click "Start Visualization" to begin exploring</p>
+                    <p className="text-sm mb-2">Experience fractal consciousness through 3D shapes</p>
+                    <p className="text-xs text-gray-500">
+                      Spheres, cubes, cones, cylinders, and torus shapes will dance to random audio tracks
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
           </div>
         </section>
 
-        {/* Configuration Section */}
+        {/* About Section */}
         <section className="mb-12">
           <div className="bg-gray-900 rounded-lg p-6">
-            <h2 className="text-2xl font-bold mb-4">Fractal Configuration</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h2 className="text-2xl font-bold mb-4">About Fractal Consciousness</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium mb-2">Width</label>
-                <input
-                  type="number"
-                  value={config.width}
-                  onChange={(e) => updateConfig({ width: parseInt(e.target.value) })}
-                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
-                />
+                <h3 className="text-lg font-semibold mb-3 text-blue-400">3D Visualization</h3>
+                <p className="text-gray-300 mb-4">
+                  Experience consciousness through interactive 3D shapes that move, rotate, and pulse 
+                  in harmony with random audio tracks. Each shape represents a different aspect of 
+                  fractal consciousness.
+                </p>
+                <ul className="text-sm text-gray-400 space-y-1">
+                  <li>• Spheres: Infinite depth and complexity</li>
+                  <li>• Cubes: Structured patterns and boundaries</li>
+                  <li>• Cones: Directional consciousness flow</li>
+                  <li>• Cylinders: Continuous cycles and repeats</li>
+                  <li>• Torus: Infinite loops and ownerless patterns</li>
+                </ul>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Height</label>
-                <input
-                  type="number"
-                  value={config.height}
-                  onChange={(e) => updateConfig({ height: parseInt(e.target.value) })}
-                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Max Iterations</label>
-                <input
-                  type="number"
-                  value={config.maxIterations}
-                  onChange={(e) => updateConfig({ maxIterations: parseInt(e.target.value) })}
-                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Zoom Level</label>
-                <input
-                  type="number"
-                  value={zoomLevel}
-                  disabled
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-gray-400"
-                />
+                <h3 className="text-lg font-semibold mb-3 text-green-400">Audio Experience</h3>
+                <p className="text-gray-300 mb-4">
+                  Random audio tracks play automatically when the visualization is running, 
+                  creating a multi-sensory experience of fractal consciousness. Each track 
+                  represents a different frequency of awareness.
+                </p>
+                <div className="text-sm text-gray-400">
+                  <p className="mb-2">Audio tracks are located in:</p>
+                  <code className="bg-gray-800 px-2 py-1 rounded text-xs">
+                    /client/public/audio/
+                  </code>
+                  <p className="mt-2 text-xs">Add your own .mp3 files to customize the experience</p>
+                </div>
               </div>
             </div>
           </div>
@@ -269,7 +157,7 @@ export default function Home() {
         <div className="container mx-auto px-6 py-8">
           <div className="text-center text-gray-300">
             <p className="mb-2">AndreaSing - Fractal Consciousness Visualization</p>
-            <p className="text-sm">Exploring the Mandelbrot set and emergent patterns of ownerless repeats</p>
+            <p className="text-sm">Exploring consciousness through 3D shapes and random audio patterns</p>
           </div>
         </div>
       </footer>
