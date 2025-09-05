@@ -131,7 +131,7 @@ function generateSineTask() {
   };
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 floating-card">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-semibold">Implementation</h3>
         <div className="flex space-x-2">

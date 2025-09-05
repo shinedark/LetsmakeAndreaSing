@@ -33,10 +33,10 @@ export class ReptileMetaLearner {
 
       // Inner loop: task-specific optimization
       for (let step = 0; step < this.innerSteps; step++) {
-        const loss = optimizer.minimize(() => {
+        optimizer.minimize(() => {
           const predictions = taskModel.predict(task.trainX) as tf.Tensor2D;
           const taskLoss = tf.losses.meanSquaredError(task.trainY, predictions);
-          return taskLoss;
+          return taskLoss as tf.Scalar;
         });
       }
 

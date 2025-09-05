@@ -86,7 +86,7 @@ export function LossChart({ lossHistory }: LossChartProps) {
   }, [lossHistory]);
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 floating-card">
       <h3 className="text-xl font-semibold mb-4">Loss Curves</h3>
       <div className="h-80">
         <canvas ref={chartRef} data-testid="loss-chart" />

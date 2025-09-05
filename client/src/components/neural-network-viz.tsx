@@ -2,10 +2,10 @@ import { Card } from "@/components/ui/card";
 
 export function NeuralNetworkViz() {
   return (
-    <Card className="p-8">
+    <Card className="p-8 floating-card">
       <h2 className="text-2xl font-semibold mb-6 text-center">Neural Network Architecture</h2>
       <div className="flex justify-center">
-        <svg width="600" height="300" className="border border-border rounded-lg bg-muted/20">
+        <svg width="600" height="300" className="border border-border rounded-lg bg-muted/10 backdrop-blur-sm">
           {/* Input Layer */}
           <g data-testid="input-layer">
             <text x="50" y="30" className="text-sm fill-foreground font-medium">Input (x)</text>

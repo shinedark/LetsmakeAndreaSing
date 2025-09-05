@@ -118,7 +118,7 @@ export function FunctionChart({ currentTask }: FunctionChartProps) {
   }, [currentTask]);
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 floating-card">
       <h3 className="text-xl font-semibold mb-4">Current Task Approximation</h3>
       <div className="h-80">
         <canvas ref={chartRef} data-testid="function-chart" />

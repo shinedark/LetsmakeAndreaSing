@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
+import * as tf from '@tensorflow/tfjs';
 import { ReptileMetaLearner } from '@/lib/reptile-algorithm';
 import { createNeuralNetwork, computeMSE } from '@/lib/neural-network';
 import { generateTaskBatch, generateSineTask } from '@/lib/data-generation';
@@ -84,41 +85,63 @@ export function useReptileTraining() {
     const trainStep = async () => {
       if (!reptileRef.current) return;
 
-      const batch = generateTaskBatch(hyperParams.tasksPerBatch);
-      const metaLoss = await reptileRef.current.metaUpdate(batch);
-
       setTrainingState(prev => {
-        const newIteration = prev.currentIteration + 1;
-        const newLossHistory = [...prev.lossHistory, metaLoss];
-        const progressPercentage = (newIteration / prev.maxIterations) * 100;
-        const elapsedTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
-
-        return {
-          ...prev,
-          currentIteration: newIteration,
-          metaLoss,
-          lossHistory: newLossHistory.slice(-100), // Keep last 100 points
-          progressPercentage,
-          elapsedTime,
-          currentBatch: batch.map(task => ({
-            amplitude: task.amplitude,
-            phase: task.phase,
-            loss: metaLoss
-          }))
-        };
+        if (prev.currentIteration >= hyperParams.metaIterations) {
+          return { ...prev, isTraining: false };
+        }
+        return prev;
       });
 
-      if (trainingState.currentIteration < hyperParams.metaIterations && 
-          trainingState.isTraining && !trainingState.isPaused) {
-        animationFrameRef.current = requestAnimationFrame(trainStep);
-      } else {
+      const batch = generateTaskBatch(hyperParams.tasksPerBatch);
+      try {
+        const metaLoss = await reptileRef.current.metaUpdate(batch);
+
+        setTrainingState(prev => {
+          const newIteration = prev.currentIteration + 1;
+          const newLossHistory = [...prev.lossHistory, metaLoss];
+          const progressPercentage = (newIteration / hyperParams.metaIterations) * 100;
+          const elapsedTime = Math.floor((Date.now() - startTimeRef.current) / 1000);
+
+          const shouldContinue = newIteration < hyperParams.metaIterations && prev.isTraining && !prev.isPaused;
+
+          if (!shouldContinue) {
+            setTimeout(() => evaluateModel(), 100);
+          }
+
+          return {
+            ...prev,
+            currentIteration: newIteration,
+            metaLoss,
+            lossHistory: newLossHistory.slice(-100),
+            progressPercentage,
+            elapsedTime,
+            isTraining: shouldContinue,
+            currentBatch: batch.map(task => ({
+              amplitude: task.amplitude,
+              phase: task.phase,
+              loss: metaLoss
+            }))
+          };
+        });
+
+        // Continue training if conditions are met
+        setTimeout(() => {
+          setTrainingState(current => {
+            if (current.currentIteration < hyperParams.metaIterations && 
+                current.isTraining && !current.isPaused) {
+              trainStep();
+            }
+            return current;
+          });
+        }, 50);
+      } catch (error) {
+        console.error('Training step failed:', error);
         setTrainingState(prev => ({ ...prev, isTraining: false }));
-        await evaluateModel();
       }
     };
 
-    animationFrameRef.current = requestAnimationFrame(trainStep);
-  }, [hyperParams, trainingState.isTraining, trainingState.isPaused, trainingState.currentIteration]);
+    trainStep();
+  }, [hyperParams]);
 
   const pauseTraining = useCallback(() => {
     setTrainingState(prev => ({ ...prev, isPaused: !prev.isPaused }));
@@ -150,39 +173,48 @@ export function useReptileTraining() {
   const evaluateModel = useCallback(async () => {
     if (!reptileRef.current) return;
 
-    // Generate a test task
-    const testTask = generateSineTask();
-    
-    // Test with random initialization
-    const randomModel = createNeuralNetwork();
-    const beforeMSE = await computeMSE(randomModel, testTask.testX, testTask.testY);
+    try {
+      // Generate a test task
+      const testTask = generateSineTask();
+      
+      // Test with random initialization
+      const randomModel = createNeuralNetwork();
+      const beforeMSE = await computeMSE(randomModel, testTask.testX, testTask.testY);
 
-    // Test with meta-learned initialization + 3 gradient steps
-    const metaModel = reptileRef.current.getModel();
-    const optimizer = (metaModel as any).optimizer;
-    
-    for (let i = 0; i < 3; i++) {
-      optimizer.minimize(() => {
-        const predictions = metaModel.predict(testTask.trainX);
-        return (metaModel as any).loss(testTask.trainY, predictions);
+      // Clone the meta-learned model for fine-tuning
+      const metaModel = reptileRef.current.getModel();
+      const finetuneModel = createNeuralNetwork();
+      finetuneModel.setWeights(metaModel.getWeights());
+      
+      // Fine-tune with 3 gradient steps
+      const optimizer = tf.train.sgd(0.01);
+      for (let i = 0; i < 3; i++) {
+        optimizer.minimize(() => {
+          const predictions = finetuneModel.predict(testTask.trainX) as tf.Tensor2D;
+          const loss = tf.losses.meanSquaredError(testTask.trainY, predictions);
+          return loss as tf.Scalar;
+        });
+      }
+      
+      const afterMSE = await computeMSE(finetuneModel, testTask.testX, testTask.testY);
+      const improvementFactor = beforeMSE > 0 ? beforeMSE / afterMSE : 1;
+
+      setEvaluationResults({
+        beforeFineTuning: beforeMSE,
+        afterFineTuning: afterMSE,
+        improvementFactor
       });
+
+      // Cleanup
+      testTask.trainX.dispose();
+      testTask.trainY.dispose();
+      testTask.testX.dispose();
+      testTask.testY.dispose();
+      randomModel.dispose();
+      finetuneModel.dispose();
+    } catch (error) {
+      console.error('Evaluation failed:', error);
     }
-    
-    const afterMSE = await computeMSE(metaModel, testTask.testX, testTask.testY);
-    const improvementFactor = beforeMSE / afterMSE;
-
-    setEvaluationResults({
-      beforeFineTuning: beforeMSE,
-      afterFineTuning: afterMSE,
-      improvementFactor
-    });
-
-    // Cleanup
-    testTask.trainX.dispose();
-    testTask.trainY.dispose();
-    testTask.testX.dispose();
-    testTask.testY.dispose();
-    randomModel.dispose();
   }, []);
 
   const updateHyperParameters = useCallback((newParams: Partial<HyperParameters>) => {

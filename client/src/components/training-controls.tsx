@@ -50,7 +50,7 @@ export function TrainingControls({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {/* Hyperparameters */}
-      <Card className="p-6">
+      <Card className="p-6 floating-card">
         <h3 className="text-xl font-semibold mb-4">Hyperparameters</h3>
         <div className="space-y-4">
           <div>
@@ -128,7 +128,7 @@ export function TrainingControls({
       </Card>
 
       {/* Training Progress */}
-      <Card className="p-6">
+      <Card className="p-6 floating-card">
         <h3 className="text-xl font-semibold mb-4">Training Progress</h3>
         <div className="space-y-4">
           <div className="flex justify-between items-center">

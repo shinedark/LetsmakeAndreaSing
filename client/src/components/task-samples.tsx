@@ -11,7 +11,7 @@ interface TaskSamplesProps {
 
 export function TaskSamples({ currentBatch }: TaskSamplesProps) {
   return (
-    <Card className="p-6">
+    <Card className="p-6 floating-card">
       <h3 className="text-xl font-semibold mb-4">Sample Tasks in Current Batch</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {currentBatch.length === 0 ? (
