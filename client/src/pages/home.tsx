@@ -52,11 +52,28 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full bg-black text-white">
+      {/* Video stamp in top left */}
+      <div className="absolute top-4 left-4 w-40 h-40 rounded-lg overflow-hidden border-4 border-white shadow-2xl bg-red-500 z-50">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          className="w-full h-full object-cover"
+        >
+          <source src="/videos/404.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {/* Shine Dark tag - more visible */}
+        <div className="absolute bottom-0 left-0 right-0 bg-red-600 bg-opacity-90 text-xs text-white py-2 text-center font-bold">
+          SHINE DARK
+        </div>
+      </div>
+
       {/* Pirlo Image at the top */}
       <div className="w-full text-center py-8 bg-gray-900">
-        <img 
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Andrea_Pirlo_%28cropped%29.jpg/250px-20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Andrea_Pirlo_%28cropped%29.jpg" 
-          alt="Andrea Pirlo - Soccer Legend" 
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Andrea_Pirlo_%28cropped%29.jpg/250px-20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Andrea_Pirlo_%28cropped%29.jpg"
+          alt="Andrea Pirlo - Soccer Legend"
           className="w-32 h-32 rounded-full mx-auto border-4 border-white shadow-lg"
         />
       </div>
