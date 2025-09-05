@@ -14,7 +14,7 @@ export default function NotFound() {
   return (
     <div className="relative w-full h-screen bg-black flex items-center justify-center text-white text-center">
       {/* Full screen video background */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full bg-black">
         <video
           ref={videoRef}
           autoPlay 
