@@ -1,6 +1,16 @@
-# Overview
+# Claudio y gornkonski - Reptile Meta-Learning Visualization
 
-This is a meta-learning visualization application that demonstrates the Reptile meta-learning algorithm through an interactive web interface. The application allows users to train a neural network using meta-learning on sine wave regression tasks, visualizing the training process, loss curves, and evaluation results in real-time. It's built as a full-stack application with a React frontend and Express backend, designed to make machine learning concepts accessible through interactive demonstrations.
+This is a sophisticated meta-learning visualization application that demonstrates the Reptile meta-learning algorithm through an interactive web interface. The application allows users to train a neural network using meta-learning on sine wave regression tasks, visualizing the training process, loss curves, and evaluation results in real-time. 
+
+Built as a full-stack application with a React frontend and Express backend, it features an elegant black and white design with floating card animations and smooth interactive visualizations. The project makes machine learning concepts accessible through real-time demonstrations of few-shot learning capabilities.
+
+## Key Features
+- Interactive Reptile meta-learning algorithm implementation
+- Real-time sine wave regression task visualization
+- Adjustable hyperparameters with live training feedback
+- Neural network architecture visualization
+- Performance evaluation comparing random vs meta-learned initialization
+- Elegant monochrome design with smooth animations
 
 # User Preferences
 
