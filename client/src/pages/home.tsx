@@ -60,7 +60,7 @@ export default function Home() {
           muted 
           className="w-full h-full object-cover"
         >
-                            <source src="/videos/404.mp4" type="video/mp4" />
+                            <source src="/LetsmakeAndreaSing/videos/404.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         {/* Shine Dark tag - more visible */}
