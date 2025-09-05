@@ -38,13 +38,18 @@ jobs:
     - name: Build static site
       run: NODE_ENV=production npm run build
       
+    - name: Copy built files to public
+      run: |
+        cp -r dist/public/* public/
+        cp dist/public/index.html public/
+      
     - name: Setup Pages
       uses: actions/configure-pages@v4
       
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: './dist/public'
+        path: './public'
         
     - name: Deploy to GitHub Pages
       id: deployment
