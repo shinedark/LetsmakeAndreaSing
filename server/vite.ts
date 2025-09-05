@@ -87,8 +87,8 @@ export function serveStatic(app: Express) {
     }
   }));
 
-  // Handle AndreaSing base path for GitHub Pages
-  app.use('/AndreaSing', express.static(distPath, {
+  // Handle LetsmakeAndreaSing base path for GitHub Pages
+  app.use('/LetsmakeAndreaSing', express.static(distPath, {
     setHeaders: (res, filePath) => {
       if (filePath.endsWith('.js')) {
         res.setHeader('Content-Type', 'application/javascript');
