@@ -1,86 +1,97 @@
-# Gronkosky - Reptile Meta-Learning Visualization
+# Andrea Sing - Portfolio
 
-An interactive web application that demonstrates the Reptile meta-learning algorithm for few-shot learning on sine wave regression tasks.
-
-## Overview
-
-This application implements the Reptile meta-learning algorithm from "On First-Order Meta-Learning Algorithms" by Nichol et al., providing real-time visualization of the training process and performance evaluation. Users can observe how a neural network learns to quickly adapt to new sine wave functions after being trained on similar tasks.
+A modern, responsive portfolio website built with React, TypeScript, and Tailwind CSS. This project showcases Andrea Sing's professional work, skills, and creative projects.
 
 ## Features
 
-- **Interactive Training**: Adjust hyperparameters and watch the meta-learning process in real-time
-- **Real-time Visualization**: Live charts showing loss curves, function approximations, and task samples
-- **Neural Network Architecture**: Visual representation of the two-layer neural network
-- **Performance Evaluation**: Compare random initialization vs meta-learned initialization
-- **Elegant Design**: Modern black and white interface with smooth animations
+- **Modern Design**: Clean, professional layout with smooth animations
+- **Responsive**: Fully responsive design that works on all devices
+- **Fast Performance**: Optimized for speed and performance
+- **Accessible**: Built with accessibility best practices
+- **TypeScript**: Full type safety throughout the application
 
-## Technical Implementation
+## Tech Stack
 
-### Algorithm Details
-- **Meta-Learning**: Reptile algorithm with configurable meta and inner learning rates
-- **Tasks**: Sine wave regression with random amplitude (0.1-5.0) and phase (0-π)
-- **Network**: Two hidden layers with 64 ReLU units each
-- **Training**: 10 training points and 10 test points per task
-- **Evaluation**: 3 gradient steps for few-shot adaptation
-
-### Technology Stack
-- **Frontend**: React + TypeScript + Vite
-- **ML Library**: TensorFlow.js for browser-based training
-- **UI Framework**: shadcn/ui with Radix UI primitives
-- **Styling**: Tailwind CSS with custom animations
-- **Charts**: Chart.js for data visualization
-- **Backend**: Express.js + TypeScript
+- **Frontend**: React 18, TypeScript, Tailwind CSS
+- **UI Components**: Radix UI primitives
+- **Routing**: Wouter (lightweight routing)
+- **Build Tool**: Vite
+- **Deployment**: GitHub Pages
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- Modern web browser with WebGL support
 
-### Local Development
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Start the development server: `npm run dev`
-4. Open your browser to `http://localhost:5000`
+- Node.js 18 or higher
+- npm or yarn
 
-### GitHub Pages Deployment
-This project is configured for automatic deployment to GitHub Pages:
+### Installation
 
-1. **Push to GitHub**: Use your existing repository "LetsmakeAndreaSing"
-2. **Enable Pages**: Go to Settings → Pages → Select "GitHub Actions"
-3. **Deploy**: Push to main branch triggers automatic deployment
-4. **Access**: Your app will be at `https://shinedark.github.io/LetsmakeAndreaSing/`
+1. Clone the repository:
+```bash
+git clone https://github.com/shinedark/LetsmakeAndreaSing.git
+cd LetsmakeAndreaSing
+```
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+2. Install dependencies:
+```bash
+npm install
+```
 
-### Usage
-1. **Adjust Hyperparameters**: Use the sliders to modify learning rates, iterations, and batch size
-2. **Start Training**: Click the "Start" button to begin meta-learning
-3. **Monitor Progress**: Watch the loss curves and function approximations update in real-time
-4. **View Results**: See the evaluation comparing random vs meta-learned performance
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Open [http://localhost:5000](http://localhost:5000) in your browser.
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+The built files will be in the `dist/public` directory.
 
 ## Project Structure
 
 ```
-├── client/src/
-│   ├── components/          # React components
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Core ML algorithms and utilities
-│   └── pages/              # Application pages
-├── server/                 # Express backend
-└── shared/                 # Shared types and schemas
+client/
+├── src/
+│   ├── components/     # Reusable UI components
+│   ├── pages/         # Page components
+│   ├── lib/           # Utility functions and data
+│   └── hooks/         # Custom React hooks
+├── public/            # Static assets
+└── index.html         # HTML template
+
+server/                # Express server (for development)
+shared/                # Shared types and schemas
 ```
 
-## Algorithm Explanation
+## Deployment
 
-The Reptile algorithm works by:
-1. Sampling a batch of tasks (sine wave functions)
-2. For each task, copying current parameters and performing inner-loop optimization
-3. Computing the average parameter update across all tasks
-4. Updating the meta-parameters in the direction of the average update
+This project is automatically deployed to GitHub Pages when changes are pushed to the main branch. The deployment process:
 
-This process creates an initialization that can quickly adapt to new tasks with just a few gradient steps.
+1. Builds the React application
+2. Uploads the built files to GitHub Pages
+3. Makes the site available at `https://shinedark.github.io/LetsmakeAndreaSing/`
+
+## Customization
+
+To customize this portfolio for your own use:
+
+1. Update the content in `client/src/pages/home.tsx`
+2. Modify the project data in `client/src/lib/data-generation.ts`
+3. Update the metadata in `client/index.html`
+4. Customize the styling in the Tailwind CSS classes
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License - feel free to use this template for your own portfolio.
+
+## Contact
+
+- **Email**: andrea@example.com
+- **GitHub**: [@shinedark](https://github.com/shinedark)
+- **LinkedIn**: [Andrea Sing](https://linkedin.com/in/andrea-sing)
