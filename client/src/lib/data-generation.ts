@@ -1,67 +1,68 @@
-// Utility functions for the portfolio
+import * as tf from '@tensorflow/tfjs';
 
-export interface Project {
-  id: string;
-  title: string;
-  description: string;
-  technologies: string[];
-  status: 'completed' | 'in-progress' | 'planned';
-  link?: string;
-  image?: string;
+export interface SineTask {
+  amplitude: number;
+  phase: number;
+  trainX: tf.Tensor2D;
+  trainY: tf.Tensor2D;
+  testX: tf.Tensor2D;
+  testY: tf.Tensor2D;
 }
 
-export interface Skill {
-  category: string;
-  name: string;
-  level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
-}
+export function generateSineTask(): SineTask {
+  // Random amplitude between 0.1 and 5.0
+  const amplitude = Math.random() * 4.9 + 0.1;
+  // Random phase between 0 and π
+  const phase = Math.random() * Math.PI;
 
-export const projects: Project[] = [
-  {
-    id: '1',
-    title: 'E-Commerce Platform',
-    description: 'Full-stack e-commerce solution with React, Node.js, and PostgreSQL',
-    technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
-    status: 'completed',
-    link: '#'
-  },
-  {
-    id: '2',
-    title: 'Mobile Weather App',
-    description: 'Cross-platform weather application with real-time data and beautiful UI',
-    technologies: ['React Native', 'TypeScript', 'Weather API'],
-    status: 'in-progress',
-    link: '#'
-  },
-  {
-    id: '3',
-    title: 'Data Visualization Dashboard',
-    description: 'Interactive dashboard for analyzing business metrics and KPIs',
-    technologies: ['D3.js', 'Python', 'FastAPI', 'MongoDB'],
-    status: 'completed',
-    link: '#'
+  // Generate training data (10 points)
+  const trainXValues = [];
+  const trainYValues = [];
+  for (let i = 0; i < 10; i++) {
+    const x = Math.random() * 10 - 5; // Uniform from -5 to 5
+    const y = amplitude * Math.sin(x + phase);
+    trainXValues.push(x);
+    trainYValues.push(y);
   }
-];
 
-export const skills: Skill[] = [
-  { category: 'Frontend', name: 'React', level: 'expert' },
-  { category: 'Frontend', name: 'TypeScript', level: 'advanced' },
-  { category: 'Frontend', name: 'Next.js', level: 'advanced' },
-  { category: 'Frontend', name: 'Vue.js', level: 'intermediate' },
-  { category: 'Frontend', name: 'Tailwind CSS', level: 'expert' },
-  { category: 'Backend', name: 'Node.js', level: 'advanced' },
-  { category: 'Backend', name: 'Python', level: 'intermediate' },
-  { category: 'Backend', name: 'PostgreSQL', level: 'advanced' },
-  { category: 'Backend', name: 'MongoDB', level: 'intermediate' },
-  { category: 'Tools', name: 'Git', level: 'expert' },
-  { category: 'Tools', name: 'AWS', level: 'intermediate' },
-  { category: 'Tools', name: 'Docker', level: 'intermediate' }
-];
+  // Generate test data (10 points)
+  const testXValues = [];
+  const testYValues = [];
+  for (let i = 0; i < 10; i++) {
+    const x = Math.random() * 10 - 5; // Uniform from -5 to 5
+    const y = amplitude * Math.sin(x + phase);
+    testXValues.push(x);
+    testYValues.push(y);
+  }
 
-export function getSkillsByCategory(category: string): Skill[] {
-  return skills.filter(skill => skill.category === category);
+  return {
+    amplitude,
+    phase,
+    trainX: tf.tensor2d(trainXValues, [10, 1]),
+    trainY: tf.tensor2d(trainYValues, [10, 1]),
+    testX: tf.tensor2d(testXValues, [10, 1]),
+    testY: tf.tensor2d(testYValues, [10, 1])
+  };
 }
 
-export function getProjectsByStatus(status: Project['status']): Project[] {
-  return projects.filter(project => project.status === status);
+export function generateSineWavePoints(amplitude: number, phase: number, numPoints: number = 100): { x: number[], y: number[] } {
+  const x = [];
+  const y = [];
+  
+  for (let i = 0; i < numPoints; i++) {
+    const xVal = (i / (numPoints - 1)) * 10 - 5; // From -5 to 5
+    const yVal = amplitude * Math.sin(xVal + phase);
+    x.push(xVal);
+    y.push(yVal);
+  }
+  
+  return { x, y };
+}
+
+export function generateTaskBatch(batchSize: number): SineTask[] {
+  const tasks: SineTask[] = [];
+  for (let i = 0; i < batchSize; i++) {
+    tasks.push(generateSineTask());
+  }
+  return tasks;
 }
