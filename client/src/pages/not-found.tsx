@@ -22,7 +22,7 @@ export default function NotFound() {
           muted 
           className="w-full h-full object-cover"
         >
-          <source src="/LetsmakeAndreaSing/videos/404.mp4" type="video/mp4" />
+          <source src="/videos/404.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
@@ -36,7 +36,7 @@ export default function NotFound() {
       </button>
       
       {/* Main content */}
-      <div className="relative z-10 bg-black bg-opacity-50 p-8 rounded-lg">
+      <div className="relative z-10 bg-black p-8 rounded-lg">
         <h1 className="text-6xl font-bold mb-4">404 - Page Not Found</h1>
         <p className="text-xl">The page you are looking for does not exist.</p>
       </div>

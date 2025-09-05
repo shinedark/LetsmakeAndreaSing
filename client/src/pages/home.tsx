@@ -54,9 +54,15 @@ export default function Home() {
     <div className="min-h-screen w-full bg-black text-white">
       {/* Video stamp in top left */}
       <div className="absolute top-4 left-4 w-40 h-40 rounded-lg overflow-hidden border-4 border-white shadow-2xl bg-red-500 z-50">
-                <div className="w-full h-full bg-red-500 flex items-center justify-center text-white font-bold text-lg">
-          VIDEO STAMP
-        </div>
+                <video
+          autoPlay 
+          loop 
+          muted 
+          className="w-full h-full object-cover"
+        >
+          <source src="/videos/404.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         {/* Shine Dark tag - more visible */}
         <div className="absolute bottom-0 left-0 right-0 bg-red-600 bg-opacity-90 text-xs text-white py-2 text-center font-bold">
           SHINE DARK
