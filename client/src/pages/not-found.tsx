@@ -22,7 +22,7 @@ export default function NotFound() {
           muted 
           className="w-full h-full object-cover"
         >
-          <source src="/LetsmakeAndreaSing/videos/404.mp4" type="video/mp4" />
+          <source src="/videos/404.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
