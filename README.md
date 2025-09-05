@@ -37,11 +37,21 @@ This application implements the Reptile meta-learning algorithm from "On First-O
 - Node.js 18+ 
 - Modern web browser with WebGL support
 
-### Installation
+### Local Development
 1. Clone the repository
 2. Install dependencies: `npm install`
 3. Start the development server: `npm run dev`
 4. Open your browser to `http://localhost:5000`
+
+### GitHub Pages Deployment
+This project is configured for automatic deployment to GitHub Pages:
+
+1. **Push to GitHub**: Create a repository named "claudio-y-gornkonski"
+2. **Enable Pages**: Go to Settings → Pages → Select "GitHub Actions"
+3. **Deploy**: Push to main branch triggers automatic deployment
+4. **Access**: Your app will be at `https://YOUR_USERNAME.github.io/claudio-y-gornkonski/`
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
 ### Usage
 1. **Adjust Hyperparameters**: Use the sliders to modify learning rates, iterations, and batch size
