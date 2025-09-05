@@ -53,9 +53,9 @@ export class MandelbrotGenerator {
 
     // Generate Mandelbrot set
     for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const c = realAxis[x] + imagAxis[y] * 1j;
-        let z = c;
+              for (let x = 0; x < width; x++) {
+          const c = { real: realAxis[x], imag: imagAxis[y] };
+          let z = { real: c.real, imag: c.imag };
         
         for (let i = 0; i < maxIterations; i++) {
           // z = z^2 + c

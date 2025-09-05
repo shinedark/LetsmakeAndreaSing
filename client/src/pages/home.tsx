@@ -1,60 +1,53 @@
 import { useEffect } from 'react';
-import { useReptileTraining } from '@/hooks/use-reptile-training';
-import { NeuralNetworkViz } from '@/components/neural-network-viz';
-import { TrainingControls } from '@/components/training-controls';
-import { LossChart } from '@/components/loss-chart';
-import { FunctionChart } from '@/components/function-chart';
-import { TaskSamples } from '@/components/task-samples';
-import { EvaluationSection } from '@/components/evaluation-section';
-import { CodeSection } from '@/components/code-section';
+import { useMandelbrot } from '@/hooks/use-mandelbrot';
 
 export default function Home() {
   const {
-    trainingState,
-    hyperParams,
-    evaluationResults,
-    startTraining,
-    pauseTraining,
-    resetTraining,
-    updateHyperParameters,
-    initializeModel
-  } = useReptileTraining();
+    isGenerating,
+    currentResult,
+    generationProgress,
+    zoomLevel,
+    centerReal,
+    centerImag,
+    config,
+    generationHistory,
+    currentHistoryIndex,
+    startGeneration,
+    pauseGeneration,
+    resetGeneration,
+    zoomIn,
+    zoomOut,
+    navigateHistory,
+    updateConfig,
+    exportImage,
+  } = useMandelbrot();
 
   useEffect(() => {
-    initializeModel();
-  }, [initializeModel]);
-
-  const handleExport = () => {
-    // TODO: Implement model export functionality
-    console.log('Export model functionality to be implemented');
-  };
-
-  const getCurrentTask = () => {
-    if (trainingState.currentBatch.length > 0) {
-      return trainingState.currentBatch[0];
+    // Auto-start generation when component mounts
+    if (!currentResult && !isGenerating) {
+      startGeneration();
     }
-    return undefined;
-  };
-
-  const getTrainingStatus = () => {
-    if (trainingState.isTraining) {
-      return trainingState.isPaused ? 'Paused' : 'Training...';
-    }
-    return 'Ready';
-  };
+  }, [currentResult, isGenerating, startGeneration]);
 
   const getStatusColor = () => {
-    if (trainingState.isTraining) {
-      return trainingState.isPaused ? 'text-yellow-400' : 'text-green-400';
+    if (isGenerating) {
+      return 'text-yellow-400';
     }
-    return 'text-gray-400';
+    return 'text-green-400';
+  };
+
+  const getStatusText = () => {
+    if (isGenerating) {
+      return `Generating... ${Math.round(generationProgress)}%`;
+    }
+    return 'Ready';
   };
 
   return (
     <div className="min-h-screen w-full bg-black text-white">
       {/* Video stamp in top left */}
       <div className="absolute top-4 left-4 w-40 h-40 rounded-lg overflow-hidden border-4 border-white shadow-2xl bg-red-500 z-50">
-                <video
+        <video
           autoPlay 
           loop 
           muted 
@@ -89,8 +82,8 @@ export default function Home() {
             <div className="flex items-center space-x-4">
               <div className="text-sm text-white">
                 <span>Status: </span>
-                <span className={getStatusColor()} data-testid="training-status">
-                  {getTrainingStatus()}
+                <span className={getStatusColor()} data-testid="generation-status">
+                  {getStatusText()}
                 </span>
               </div>
             </div>
@@ -99,51 +92,168 @@ export default function Home() {
       </header>
 
       <div className="container mx-auto px-6 py-8">
-        {/* Neural Network Architecture Section */}
+        {/* Mandelbrot Visualization Section */}
         <section className="mb-12">
-          <NeuralNetworkViz />
-        </section>
+          <div className="bg-gray-900 rounded-lg p-6">
+            <h2 className="text-2xl font-bold mb-4">Fractal Consciousness Visualization</h2>
+            
+            {/* Controls */}
+            <div className="flex flex-wrap gap-4 mb-6">
+              <button
+                onClick={() => startGeneration()}
+                disabled={isGenerating}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+              >
+                {isGenerating ? 'Generating...' : 'Generate Fractal'}
+              </button>
+              
+              <button
+                onClick={pauseGeneration}
+                disabled={!isGenerating}
+                className="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:opacity-50"
+              >
+                Pause
+              </button>
+              
+              <button
+                onClick={resetGeneration}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Reset
+              </button>
+              
+              <button
+                onClick={exportImage}
+                disabled={!currentResult}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+              >
+                Export Image
+              </button>
+            </div>
 
-        {/* Training Controls Section */}
-        <section className="mb-12">
-          <TrainingControls
-            isTraining={trainingState.isTraining}
-            isPaused={trainingState.isPaused}
-            currentIteration={trainingState.currentIteration}
-            maxIterations={trainingState.maxIterations}
-            metaLoss={trainingState.metaLoss}
-            progressPercentage={trainingState.progressPercentage}
-            elapsedTime={trainingState.elapsedTime}
-            hyperParams={hyperParams}
-            onStart={startTraining}
-            onPause={pauseTraining}
-            onReset={resetTraining}
-            onExport={handleExport}
-            onUpdateHyperParams={updateHyperParameters}
-          />
-        </section>
+            {/* Zoom Controls */}
+            <div className="flex flex-wrap gap-4 mb-6">
+              <button
+                onClick={() => zoomIn(centerReal, centerImag)}
+                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+              >
+                Zoom In
+              </button>
+              
+              <button
+                onClick={zoomOut}
+                disabled={zoomLevel <= 1}
+                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50"
+              >
+                Zoom Out
+              </button>
+            </div>
 
-        {/* Visualization Section */}
-        <section className="mb-12">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            <LossChart lossHistory={trainingState.lossHistory} />
-            <FunctionChart currentTask={getCurrentTask()} />
+            {/* History Navigation */}
+            {generationHistory.length > 1 && (
+              <div className="flex gap-4 mb-6">
+                <button
+                  onClick={() => navigateHistory('back')}
+                  disabled={currentHistoryIndex <= 0}
+                  className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+                >
+                  ← Previous
+                </button>
+                
+                <button
+                  onClick={() => navigateHistory('forward')}
+                  disabled={currentHistoryIndex >= generationHistory.length - 1}
+                  className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+                >
+                  Next →
+                </button>
+              </div>
+            )}
+
+            {/* Progress Bar */}
+            {isGenerating && (
+              <div className="mb-6">
+                <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div 
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${generationProgress}%` }}
+                  ></div>
+                </div>
+                <p className="text-sm text-gray-300 mt-2">
+                  Generating fractal at {config.width}x{config.height} resolution...
+                </p>
+              </div>
+            )}
+
+            {/* Fractal Display */}
+            <div className="bg-black rounded-lg p-4 min-h-[400px] flex items-center justify-center">
+              {currentResult ? (
+                <div className="text-center">
+                  <h3 className="text-xl font-bold mb-4">Mandelbrot Set - Ownerless Repeats</h3>
+                  <p className="text-gray-300 mb-4">
+                    Zoom Level: {zoomLevel}x | Center: ({centerReal.toFixed(3)}, {centerImag.toFixed(3)})
+                  </p>
+                  <p className="text-sm text-gray-400">
+                    Generated in {currentResult.generationTime.toFixed(2)}ms
+                  </p>
+                  <div className="mt-4 text-xs text-gray-500">
+                    <p>This fractal represents the infinite complexity of consciousness</p>
+                    <p>Each point reveals patterns that repeat without ownership</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center text-gray-400">
+                  <p className="text-lg">Click "Generate Fractal" to begin exploring</p>
+                  <p className="text-sm mt-2">The Mandelbrot set awaits your consciousness</p>
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
-        {/* Task Samples Section */}
+        {/* Configuration Section */}
         <section className="mb-12">
-          <TaskSamples currentBatch={trainingState.currentBatch} />
-        </section>
-
-        {/* Evaluation Section */}
-        <section className="mb-12">
-          <EvaluationSection evaluationResults={evaluationResults} />
-        </section>
-
-        {/* Code Implementation Section */}
-        <section className="mb-12">
-          <CodeSection />
+          <div className="bg-gray-900 rounded-lg p-6">
+            <h2 className="text-2xl font-bold mb-4">Fractal Configuration</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Width</label>
+                <input
+                  type="number"
+                  value={config.width}
+                  onChange={(e) => updateConfig({ width: parseInt(e.target.value) })}
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Height</label>
+                <input
+                  type="number"
+                  value={config.height}
+                  onChange={(e) => updateConfig({ height: parseInt(e.target.value) })}
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Max Iterations</label>
+                <input
+                  type="number"
+                  value={config.maxIterations}
+                  onChange={(e) => updateConfig({ maxIterations: parseInt(e.target.value) })}
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Zoom Level</label>
+                <input
+                  type="number"
+                  value={zoomLevel}
+                  disabled
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-gray-400"
+                />
+              </div>
+            </div>
+          </div>
         </section>
       </div>
 
