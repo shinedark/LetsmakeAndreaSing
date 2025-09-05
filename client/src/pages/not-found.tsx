@@ -13,8 +13,8 @@ export default function NotFound() {
 
   return (
     <div className="relative w-full h-screen bg-black flex items-center justify-center text-white text-center">
-      {/* Video stamp in top left */}
-      <div className="absolute top-4 left-4 w-40 h-40 rounded-lg overflow-hidden border-4 border-white shadow-2xl bg-red-500">
+      {/* Full screen video background */}
+      <div className="absolute inset-0 w-full h-full">
         <video 
           ref={videoRef} 
           autoPlay 
@@ -22,13 +22,9 @@ export default function NotFound() {
           muted 
           className="w-full h-full object-cover"
         >
-          <source src="/videos/404.mp4" type="video/mp4" />
+          <source src="/LetsmakeAndreaSing/videos/404.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        {/* Shine Dark tag - more visible */}
-        <div className="absolute bottom-0 left-0 right-0 bg-red-600 bg-opacity-90 text-xs text-white py-2 text-center font-bold">
-          SHINE DARK
-        </div>
       </div>
 
       {/* Mute button */}
@@ -40,7 +36,7 @@ export default function NotFound() {
       </button>
       
       {/* Main content */}
-      <div className="relative z-10">
+      <div className="relative z-10 bg-black bg-opacity-50 p-8 rounded-lg">
         <h1 className="text-6xl font-bold mb-4">404 - Page Not Found</h1>
         <p className="text-xl">The page you are looking for does not exist.</p>
       </div>
