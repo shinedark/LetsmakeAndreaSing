@@ -41,6 +41,11 @@ jobs:
     - name: Create 404.html for SPA routing
       run: cp dist/public/index.html dist/public/404.html
       
+    - name: Update base URL for GitHub Pages
+      run: |
+        sed -i 's|href="/|href="/AndreaSing/|g' dist/public/index.html
+        sed -i 's|src="/|src="/AndreaSing/|g' dist/public/index.html
+      
     - name: Setup Pages
       uses: actions/configure-pages@v4
       

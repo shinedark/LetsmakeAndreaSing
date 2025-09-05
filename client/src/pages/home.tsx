@@ -83,8 +83,8 @@ export default function Home() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white">Gronkosky - Reptile Meta-Learning</h1>
-              <p className="text-gray-300 mt-1">Interactive Visualization of Few-Shot Learning</p>
+              <h1 className="text-3xl font-bold text-white">AndreaSing - Fractal Consciousness</h1>
+              <p className="text-gray-300 mt-1">Interactive Visualization of Ownerless Repeats</p>
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-sm text-white">
@@ -151,8 +151,8 @@ export default function Home() {
       <footer className="border-t border-gray-700 bg-gray-900">
         <div className="container mx-auto px-6 py-8">
           <div className="text-center text-gray-300">
-            <p className="mb-2">Gronkosky - Reptile Meta-Learning Visualization</p>
-            <p className="text-sm">Implementation of "On First-Order Meta-Learning Algorithms" by Nichol et al.</p>
+            <p className="mb-2">AndreaSing - Fractal Consciousness Visualization</p>
+            <p className="text-sm">Exploring the Mandelbrot set and emergent patterns of ownerless repeats</p>
           </div>
         </div>
       </footer>
